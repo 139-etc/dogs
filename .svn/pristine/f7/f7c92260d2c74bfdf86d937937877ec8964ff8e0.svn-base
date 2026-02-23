@@ -1,0 +1,66 @@
+package com.example.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.example.domain.cards.service.CardsService;
+
+@Controller
+public class CardgameMenuController {
+
+	@Autowired
+	private CardsService cardsService;
+
+	/** カードゲーム画面を表示 */
+	@GetMapping("/cardgame")
+	public String getMenu() {
+		List<String> number = new ArrayList<String>();
+		number.add("A");
+		number.add("2");
+		number.add("3");
+		number.add("4");
+		number.add("5");
+		number.add("6");
+		number.add("7");
+		number.add("8");
+		number.add("9");
+		number.add("10");
+		number.add("J");
+		number.add("Q");
+		number.add("K");
+
+		List<String> suit = new ArrayList<String>();
+		suit.add("スペード");
+		suit.add("ハート");
+		suit.add("ダイヤ");
+		suit.add("クラブ");
+
+		int nlen = number.size();
+		int slen = suit.size();
+		int idInt = 2;
+
+		if(cardsService.confirmDeck(0) == 0) {
+			cardsService.createDeck(0, "Joker", "Joker",0);
+		}
+
+		if(cardsService.confirmDeck(1) == 0) {
+			cardsService.createDeck(1, "Joker", "Joker",0);
+		}
+
+		for(int i = 0 ; i < slen ; i++) {
+			for(int j = 0 ; j < nlen ; j++) {
+				if(cardsService.confirmDeck(idInt) == 0) {
+					cardsService.createDeck(idInt,suit.get(i),number.get(j),0);
+				}
+				idInt++;
+			}
+		}
+
+		return "cards/cardgame";
+	}
+
+}

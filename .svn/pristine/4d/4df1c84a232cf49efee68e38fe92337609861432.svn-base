@@ -1,0 +1,54 @@
+create  table if  not  exists employee(
+ id varchar (50) primary key ,
+ name varchar (50),
+ age int
+);
+
+/* ユーザーマスタ */
+CREATE TABLE IF NOT EXISTS m_user (
+    user_id VARCHAR(50) PRIMARY KEY
+  , password VARCHAR(100)
+  , user_name VARCHAR(50)
+  , birthday DATE
+  , age INT
+  , gender INT
+  , department_id INT
+  , role VARCHAR(50)
+);
+
+/* 部署マスタ */
+CREATE TABLE IF NOT EXISTS m_department (
+    department_id INT PRIMARY KEY
+  , department_name VARCHAR(50)
+);
+
+/* 給料テーブル */
+CREATE TABLE IF NOT EXISTS t_salary (
+    user_id VARCHAR(50)
+  , year_month VARCHAR(50)
+  , salary INT
+  , PRIMARY KEY(user_id, year_month)
+);
+
+/* 山札テーブル */
+CREATE TABLE IF NOT EXISTS deck (
+    card_id INT(3) PRIMARY KEY
+  , suit VARCHAR(5)
+  , number VARCHAR(5)
+  , used INT
+);
+
+/* ディーラーテーブル */
+CREATE TABLE IF NOT EXISTS dealer (
+    card_id INT(3) PRIMARY KEY
+  , suit VARCHAR(5)
+  , number VARCHAR(5)
+);
+
+/* プレイヤーテーブル */
+CREATE TABLE IF NOT EXISTS player (
+    card_id INT(3) PRIMARY KEY
+  , suit VARCHAR(5)
+  , number VARCHAR(5)
+);
+

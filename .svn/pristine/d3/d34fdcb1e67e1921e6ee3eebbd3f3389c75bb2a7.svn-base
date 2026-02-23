@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+	<title>ブラックジャック</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="header border-bottom">
+			<h1 class="h2"><br>ここではブラックジャックを楽しむことができます</h1>
+			<h2 class="h4">ディーラーとプレイヤーが戦います。
+				<br>カード2枚以上の合計が21点をこえないようにできるかぎり近づけます。
+				<br>親よりも自分のカードの組み合わせのほうが21に近ければ勝ちです。
+			</h2>
+		</div>
+		<div>
+			<form id="deal" method="get" th:action="@{/cardgame/deal}" onclick="release()">
+				<br><input type="submit" value="2枚配る"></input>
+			</form>
+
+			<form id="hit" method="get" th:action="@{/cardgame/hit}">
+				<br><input type="submit" value="1枚追加"></input>
+			</form>
+
+			<form id="stand" method="get" th:action="@{/cardgame/stand}">
+				<br><input type="submit" value="勝負！"></input>
+			</form>
+
+			<form id="replay" method="get" th:action="@{/cardgame/replay}">
+				<br><input type="submit" value="もう一度！"></input>
+			</form>
+
+			<br><br>
+			<td th:if="${playSum != 0}" th:text="あなたの手札は"></td>
+			<table class="table table-striped table-bordered table-hover">
+				<thead class="thead-light">
+					<tr>
+						<th class="th-width">絵柄</th>
+						<th class="th-width">数字</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="phand: ${playerHand}">
+						<td th:text="${phand.suit}"></td>
+						<td th:text="${phand.number}"></td>
+						</a>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+			
+			<td th:if="${playSum != 0}" th:text="あなたの手札の合計は"></td>
+			<p th:text="${playerSum}"></p>
+
+			<br><p th:text="${msg}"></p>
+			
+			<br><br><p th:text="${dsum}"></p>
+		</div>
+	</div>
+
+</body>
+
+</html>

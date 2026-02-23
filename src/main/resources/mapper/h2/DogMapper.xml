@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapperとxmlのマッピング -->
+<mapper namespace="com.example.repository.DogMapper">
+
+  <!-- マッピング定義(ユーザー) -->
+  <!-- column:select結果のカラム名を設定
+  property:Javaクラスのフィールド名を設定 -->
+  <resultMap type="com.example.domain.dog.model.Breed" id="breed">
+    <id column="id" property="id" />
+    <result column="name" property="name" />
+    <result column="stamina" property="stamina" />
+    <result column="max_event" property="maxEvent" />
+    <result column="max_point_event" property="maxPointEvent" />
+  </resultMap>
+    
+  <resultMap type="com.example.domain.dog.model.Event" id="event">
+    <id column="id" property="id" />
+    <result column="incident" property="incident" />
+  </resultMap>
+  
+  
+  <resultMap type="com.example.domain.dog.model.Choice" id="choice">
+	<id column="id" property="id" />
+    <result column="incident" property="incident" />
+    <result column="choice" property="choice" />
+    <result column="result_stamina" property="resultStamina" />
+    <result column="result_point_rate" property="resultPointRate" />
+  </resultMap>
+  
+  <resultMap type="com.example.domain.dog.model.Status" id="status">
+	<id column="id" property="id" />
+    <result column="breed" property="breed" />
+    <result column="stamina" property="stamina" />
+    <result column="point" property="point" />
+    <result column="user_id" property="userId" />    
+  </resultMap>
+
+  <resultMap type="com.example.domain.dog.model.Log" id="log">
+	<id column="id" property="id" />
+    <result column="breed" property="breed" />
+    <result column="stamina" property="stamina" />
+    <result column="point" property="point" />
+    <result column="times" property="times" />    
+  </resultMap>
+
+  <resultMap type="com.example.domain.dog.model.Result" id="result">
+	<id column="id" property="id" />
+    <result column="user_id" property="userId" />
+    <result column="user_name" property="userName" />
+    <result column="breed" property="breed" />
+    <result column="stamina" property="stamina" />  
+    <result column="point" property="point" />
+    <result column="times" property="times" />    
+    <result column="result_time" property="resultTime" /> 
+  </resultMap>
+  
+<select id="selectAllBreed" resultType="com.example.domain.dog.model.Breed">
+	 SELECT
+	 	*
+	 FROM
+	 	breed
+	 ORDER BY
+	 	stamina
+</select>
+ 
+ 
+ <select id="selectAllEvent" resultType="com.example.domain.dog.model.Event">
+	 SELECT
+	 	*
+	 FROM
+	 	event
+	 WHERE
+	 	id IN
+	 <foreach collection="ids" item="id" open="(" separator="," close=")">
+		 #{id}
+	 </foreach>
+ </select>
+ 
+ <select id="selectChoice" resultType="com.example.domain.dog.model.Choice">
+	 SELECT
+	 	*
+	 FROM
+	 	choice
+	 WHERE incident = #{incident}
+ </select>
+
+ <update id="setStatus">
+	 UPDATE
+	 	status
+	 SET
+	 	breed = #{breed},
+	 	stamina = 
+	 		(SELECT stamina FROM breed WHERE name = #{breed})
+	 WHERE id = #{userId}
+ </update>
+ 
+  <update id="updateStatus">
+	 UPDATE
+		status
+	SET
+		point = point +
+			(SELECT max_point_event FROM breed WHERE name = 
+				(SELECT breed FROM status WHERE id = #{userId}))
+			*(SELECT result_point_rate FROM choice WHERE id = #{choiceId}),
+		stamina = stamina + 
+			(SELECT result_stamina FROM choice WHERE id = #{choiceId})
+	WHERE id = #{userId}
+</update>
+ 
+ <select id="selectStatus" resultType="com.example.domain.dog.model.Status">
+	 SELECT
+	 	*
+	 FROM
+	 	status
+	 WHERE id = #{userId}	 
+ </select>
+
+<insert id="insertLog">
+	INSERT INTO log(
+	    id,
+    	user_id,
+  		user_name,
+  		breed ,
+    	diff_stamina, 
+    	diff_point,
+    	times,
+    	update_time
+	) VALUES (
+		CAST((
+			SELECT COUNT(id)+1 FROM log
+		) AS VARCHAR),
+		#{userId},
+		(SELECT user_name FROM m_user WHERE user_id = #{userId}),
+		(SELECT breed FROM status WHERE id = #{userId}),
+		(SELECT result_stamina FROM choice WHERE id = #{choiceId}),
+		(SELECT max_point_event FROM breed WHERE name = 
+				(SELECT breed FROM status WHERE id = #{userId}))
+			*(SELECT result_point_rate FROM choice WHERE id = #{choiceId}),
+		(SELECT times FROM status WHERE id = #{userId}),
+		NOW()
+	);
+</insert>
+
+
+<insert id="insertStatus">
+	INSERT INTO status(
+		id
+    	,point
+    	,times
+	) VALUES 
+		(#{userId},0,0);
+</insert>
+
+<update id="countTimes">
+	UPDATE status
+		SET times = times + 1
+	WHERE id = #{userId}	
+</update>
+
+<insert id="setResult">
+	INSERT INTO result (
+    	id,
+    	user_id,
+  		user_name,
+  		breed ,
+  		stamina,
+  		point,
+    	times,
+    	result_time
+    ) VALUES
+    	(CAST((
+			SELECT COUNT(id)+1 FROM result
+		) AS VARCHAR),
+		#{userId},
+		(SELECT user_name FROM m_user WHERE user_id = #{userId}),
+		(SELECT breed FROM status WHERE id = #{userId}),
+		(SELECT stamina FROM status WHERE id = #{userId}),
+		(SELECT point FROM status WHERE id = #{userId}),
+		(SELECT times FROM status WHERE id = #{userId}),
+		NOW()
+	);
+</insert>
+
+<select id="getResult" resultType="com.example.domain.dog.model.Result">
+	SELECT
+		*
+	FROM
+		result
+	WHERE
+		user_id = #{userId}
+</select>
+
+</mapper>

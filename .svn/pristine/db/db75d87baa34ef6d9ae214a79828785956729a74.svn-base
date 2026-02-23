@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapperとxmlのマッピング -->
+<mapper namespace="com.example.repository.CardMapper">
+
+  <!-- マッピング定義(ユーザー) -->
+  <!-- column:select結果のカラム名を設定
+  property:Javaクラスのフィールド名を設定 -->
+  <resultMap type="com.example.domain.cards.model.Cards" id="cards">
+    <id column="card_id" property="cardId" />
+    <result column="suit" property="suit" />
+    <result column="number" property="number" />
+  </resultMap>
+
+
+<insert id="createDeck">
+	insert into deck(
+	 card_id
+	,suit
+	,number
+	,used
+	)values(
+	 #{id}
+	,#{suit}
+	,#{number}
+	,#{used}
+	)
+</insert>
+
+<select id="confirmDeck" resultType="int">
+	select COUNT(card_id)
+	from deck
+	where card_id=#{id}
+</select>
+
+<select id="confirmPCount" resultType="int">
+	select COUNT(card_id)
+	from player
+</select>
+
+<select id="confirmDealer" resultType="int">
+	select COUNT(card_id)
+	from dealer
+	where card_id=#{id}
+</select>
+
+
+<select id="confirmUsed" resultType="int">
+	select used
+	from deck
+	where card_id=#{id}
+</select>
+
+<select id="distribute" resultType="com.example.domain.cards.model.Cards">
+	select
+	*
+	from deck
+	where card_id=#{id}
+	and used = 0
+</select>
+
+<insert id="insertPlayer">
+	insert into player(
+	 card_id
+	,suit
+	,number
+	)values(
+	 #{id}
+	,#{suit}
+	,#{number}
+	)
+</insert>
+
+<insert id="insertDealer">
+	insert into dealer(
+	 card_id
+	,suit
+	,number
+	)values(
+	 #{id}
+	,#{suit}
+	,#{number}
+	)
+</insert>
+
+<delete id="updateDeck">
+	update deck
+	set used = 1
+	where card_id = #{id}
+</delete>
+
+<select id="showPHand" resultType="com.example.domain.cards.model.Cards">
+	select *
+	from player
+</select>
+
+<select id="showDHand" resultType="com.example.domain.cards.model.Cards">
+	select *
+	from dealer
+</select>
+
+<delete id="resetPlayer">
+	delete from player
+</delete>
+
+<delete id="resetDealer">
+	delete from dealer
+</delete>
+
+<update id="resetDeck">
+	update deck
+	set used = 0	
+</update>
+
+</mapper>

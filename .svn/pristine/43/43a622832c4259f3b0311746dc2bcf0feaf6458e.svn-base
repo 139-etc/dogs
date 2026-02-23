@@ -1,0 +1,257 @@
+package com.example.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.example.domain.cards.model.Cards;
+import com.example.domain.cards.service.CardsService;
+
+@Controller
+@RequestMapping("/cardgame")
+public class BlackjackController {
+	
+	@Autowired
+	private CardsService cardsService;
+	
+
+	//使いまわすためにフィールド変数に
+	List<Integer> listP = new ArrayList<Integer>();
+	List<Integer> listD = new ArrayList<Integer>();
+	
+	//手札の枚数
+	private int sheets ;
+	
+	//手札の合計
+	private int psum ;
+	private int dsum ;
+	
+	//最終的なプレイヤーの手札の枚数
+	private int pmax;
+	
+	//ランダム生成用の変数
+	Random random = new Random();
+	
+	@GetMapping("/blackjack")
+	public String getScreen() {
+		return "cards/blackjack";
+	}
+	
+
+	@GetMapping("/deal")
+	public String deal(Model model) {
+		
+		int pidInt = 0;
+		int didInt = 0 ;
+				
+		//プレイヤーの手札を生成し合計を出す
+		while(listP.size() < 2 ) {
+			int id = random.nextInt(53);
+			if (!listP.contains(id) /*&& cardsService.confirmPCount() != 2*/) {
+				listP.add(id);
+				Cards a = cardsService.distribute(id);
+				cardsService.insertPlayer(pidInt,a.getSuit(),a.getNumber());
+				cardsService.updateDeck(id);
+				pidInt++;
+				if(a.getNumber().equals("A")) {
+					if(psum < 10) {
+						psum += 11;
+					}else {
+						psum += 1;
+					}
+				}else if(a.getNumber().equals("J") ||
+						a.getNumber().equals("Q") ||
+						a.getNumber().equals("K")) {
+					psum += 10;
+				}else if(a.getNumber().equals("Joker")) {
+					; //Jokerは無視
+				}else {
+					psum += Integer.parseInt(a.getNumber());
+				}
+			}			
+		}
+		
+        // 手札取得
+        List<Cards> phand = cardsService.showPHand();
+        
+        // Modelに登録
+		model.addAttribute("playerHand",phand);
+		
+		//手札の合計が17を超えるまでディーラーは引き続ける
+		while(dsum < 17 ) {
+			int id = random.nextInt(53);
+			if(!listD.contains(id) && !listP.contains(id)) {
+				listD.add(id);
+				Cards b = cardsService.distribute(id);
+				cardsService.insertDealer(didInt,b.getSuit(),b.getNumber());
+				cardsService.updateDeck(id);
+				didInt++;
+				if(b.getNumber().equals("A")) {
+					if(dsum < 10) {
+						dsum += 11 ;
+					}else {
+						dsum += 1 ;
+					}
+				}else if(b.getNumber().equals("J") ||
+						b.getNumber().equals("Q") || 
+						b.getNumber().equals("K")) {
+					dsum += 10 ;
+				}else if(b.getNumber().equals("Joker")) {
+					; //Jokerは無視
+				}else {
+					dsum += Integer.parseInt(b.getNumber());
+				}
+			}
+		}
+
+		
+        // Modelに登録
+		model.addAttribute("playerSum",psum);
+
+		
+		//メンバ変数に代入
+		this.sheets = 2;
+		
+		// 画面に戻ってくる
+		return "cards/blackjack";
+	}
+	
+	@GetMapping("/hit")
+	public String hit(Model model) {
+		
+		//プレイヤーテーブルのID
+		int pidInt = listP.size();
+		
+		//1枚引き合計を出す
+		while (listP.size() == sheets && pmax < sheets) {
+			int id = random.nextInt(53);
+			if(!listP.contains(id) && !listD.contains(id) /*&& pmax < listP.size()*/) {
+				listP.add(id);
+				Cards c = cardsService.distribute(id);
+				cardsService.insertPlayer(pidInt,c.getSuit(),c.getNumber());
+				cardsService.updateDeck(id);
+				pidInt++;
+				if(c.getNumber().equals("A")) {
+					if(psum < 10) {
+						psum += 11;
+					}else {
+						psum += 1;
+					}
+				}else if(c.getNumber().equals("J") ||
+						c.getNumber().equals("Q") ||
+						c.getNumber().equals("K")) {
+					psum += 10;
+				}else if(c.getNumber().equals("Joker")) {
+					; //Jokerは無視
+				}else {
+					psum += Integer.parseInt(c.getNumber());
+				}
+			}			
+		}
+		
+        // 手札取得
+        List<Cards> phand = cardsService.showPHand();
+        
+        // Modelに登録
+		model.addAttribute("playerHand",phand);
+				
+        // Modelに登録
+		model.addAttribute("playerSum",psum);
+				
+		//メンバ変数に代入
+		this.listP = listP;
+		this.listD = listD;
+		this.sheets ++;
+		this.psum = psum ;
+
+		// 画面に戻ってくる
+		return "cards/blackjack";
+
+	}
+	
+	@GetMapping("/stand")
+	public String stand(Model model) {
+		int psum = this.psum;
+		int dsum = this.dsum;
+		
+		//リストのサイズを確定させる
+		this.pmax = this.listP.size();
+		
+		model.addAttribute("dsum", dsum);
+		
+		if(psum > 21) {
+			if(dsum > 21) {
+				if(psum > dsum) {
+					model.addAttribute("msg","あなたの負けです");
+				}else if(psum == dsum){
+					model.addAttribute("msg","引き分けです");
+				}else {
+					model.addAttribute("msg","あなたの勝ちです");
+				}
+			}else if(dsum == 21) {
+				model.addAttribute("msg","あなたの負けです");
+			}else {
+				model.addAttribute("msg","あなたの負けです");
+			}
+		}else if(psum == 21) {
+			if(dsum == 21) {
+				model.addAttribute("msg","引き分けです");
+			}else {
+				model.addAttribute("msg","あなたの勝ちです");
+			}
+		}else {
+			if(dsum > 21) {
+				model.addAttribute("msg","あなたの勝ちです");
+			}else if(dsum == 21) {
+				model.addAttribute("msg","あなたの負けです");
+			}else {
+				if(psum < dsum) {
+					model.addAttribute("msg","あなたの負けです");
+				}else if(psum == dsum){
+					model.addAttribute("msg","引き分けです");
+				}else {
+					model.addAttribute("msg","あなたの勝ちです");
+				}
+			}			
+		}
+
+		// 手札取得
+        List<Cards> phand = cardsService.showPHand();
+        
+        
+        // Modelに登録
+		model.addAttribute("playerHand",phand);
+				
+        // Modelに登録
+		model.addAttribute("playerSum",psum);
+
+		
+		
+		return "cards/blackjack";
+	}
+	
+	@GetMapping("/replay")
+	public String replay(Model model) {
+		
+		//３つのテーブルをリセット
+		cardsService.resetPlayer();		
+		cardsService.resetDealer();
+		cardsService.resetDeck();
+		
+		//Modelを上書き
+        List<Cards> phand = cardsService.showPHand();
+		model.addAttribute("playerHand",phand);
+		model.addAttribute("playerSum",0);
+		model.addAttribute("msg","");
+
+		
+		return  "cards/blackjack";
+	}
+
+}

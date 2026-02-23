@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}">
+<head>
+  <title>初期画面</title>
+  <!-- 個別CSS読込 -->
+  <link rel="stylesheet" th:href="@{/css/user/list.css}">
+  <!-- 個別JS読込 -->
+  <link rel="stylesheet" th:href="@{/webjars/datatables/css/jquery.dataTables.min.css}">
+  <script th:src="@{/webjars/datatables/js/jquery.dataTables.min.js}" defer></script>
+  <script th:src="@{/js/user/list.js}" defer></script>
+</head>
+<body>
+  <div layout:fragment="content">
+    <div class="header border-bottom" >
+      <h1 class="h2">初期画面</h1>
+    </div>
+    <form method="post" th:action="@{/walk}">
+    <h4>あなたは犬の飼い主です。散歩してあげましょう！
+		<br>
+		<br>散歩する犬の犬種を選んでください！
+		<table th:each="breed:${breeds}">
+			<tr>
+				<td><input type="radio" th:text="${breed.name}" th:value="${breed.name}" name="breed"/></td>
+			</tr>
+		</table>
+		<br>
+	</h4>
+	<input type="submit" value="出発！"/>
+	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+  </div>
+</form>
+</body>
+</html>

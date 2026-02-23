@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}">
+<head>
+  <title>散歩！　散歩！</title>
+  <!-- 個別CSS読込 -->
+  <link rel="stylesheet" th:href="@{/css/user/list.css}">
+  <!-- 個別JS読込 -->
+  <link rel="stylesheet" th:href="@{/webjars/datatables/css/jquery.dataTables.min.css}">
+  <script th:src="@{/webjars/datatables/js/jquery.dataTables.min.js}" defer></script>
+  <script th:src="@{/js/user/list.js}" defer></script>
+</head>
+<body>
+  <div layout:fragment="content">
+    <div class="header border-bottom">
+      <h1 class="h2" >戦績確認画面</h1>
+    </div>
+    <h4 style="margin-bottom: 20px;">あなたの戦績</h4>
+		<table border="1">
+			<tr>
+				<td>回数</td>
+				<td>ユーザID</td>
+				<td>ユーザ名</td>
+				<td>犬種</td>
+				<td>残り体力</td>
+				<td>得点</td>
+				<td>実行日時</td>
+			</tr>
+			<tr th:each="result:${results}">
+				<td th:text="${result.times}"></td>
+				<td th:text="${result.userId}"></td>
+				<td th:text="${result.userName}"></td>
+				<td th:text="${result.breed}"></td>
+				<td th:text="${result.stamina}"></td>
+				<td th:text="${result.point}"></td>
+				<td th:text="${result.resultTime}"></td>
+			</tr>
+		</table>
+  </div>
+</div>
+</body>
+</html>

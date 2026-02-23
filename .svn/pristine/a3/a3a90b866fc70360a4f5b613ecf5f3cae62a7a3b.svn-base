@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+	<title>トランプの世界へようこそ</title>
+
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="header border-bottom">
+			<h1 class="h2"><br>ここではトランプゲームを楽しむことができます</h1>
+			<a href="/cardgame/blackjack"><br>ブラックジャック</a>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+package com.example.repository;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.example.domain.cards.model.Cards;
+
+@Mapper
+public interface CardMapper {
+	
+	/** 山札生成 */
+	public void createDeck(int id,String suit,String number,int used);
+	
+	/** カードの存在確認 */
+	public int confirmDeck(int id);
+	
+	/** カードの存在確認（プレイヤー） */
+	public int confirmPCount();
+	
+	/** カードの存在確認（ディーラー） */
+	public int confirmDealer(int id);
+	
+	/** カードが使用済みか確認(0ならば未使用,1ならば使用済み) */
+	public int confirmUsed(int id);
+	
+	/** カードを1枚取る */
+	public Cards distribute(int id);
+	
+	/** プレイヤーテーブルに１枚配る */
+	public void insertPlayer(int id,String suit,String number);
+
+	/** ディーラーテーブルに１枚配る */
+	public void insertDealer(int id,String suit,String number);
+	
+	/** 山札から１枚削除 */
+	public void updateDeck(int id);
+	
+	/** プレイヤーテーブルを全表示 */
+	public List<Cards> showPHand();
+
+	/** ディーラーテーブルを全表示 */
+	public List<Cards> showDHand();
+	
+	/** プレイヤーテーブルをリセット */
+	public void resetPlayer();
+
+	/** プレイヤーテーブルをリセット */
+	public void resetDealer();
+
+	/** プレイヤーテーブルをリセット */
+	public void resetDeck();
+
+
+}

@@ -1,0 +1,92 @@
+package com.example.domain.cards.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.domain.cards.model.Cards;
+import com.example.domain.cards.service.CardsService;
+import com.example.repository.CardMapper;
+
+@Service
+public class CardsServiceImpl implements CardsService {
+
+	@Autowired
+	private CardMapper cardMapper;
+	
+	/** 山札生成 */
+	public void createDeck(int id,String suit,String number,int used) {
+		cardMapper.createDeck(id, suit, number,used);
+	}
+	
+	/** カードの存在確認 */
+	public int confirmDeck(int id) {
+		return cardMapper.confirmDeck(id);
+	}
+	
+	/** カードのID確認（プレイヤー） */
+	public int confirmPCount() {
+		return cardMapper.confirmPCount();
+	}
+	
+	/** カードの存在確認（ディーラー） */
+	public int confirmDealer(int id) {
+		return cardMapper.confirmDealer(id);
+	}
+
+	
+	/** カードが使用済みか確認(0ならば未使用,1ならば使用済み) */
+	public int confirmUsed(int id) {
+		return cardMapper.confirmUsed(id);
+	}
+
+	
+	/** カードを1枚取る */
+	public Cards distribute(int id) {
+		return cardMapper.distribute(id);
+	}
+	
+	/** プレイヤーテーブルに１枚配る */
+	public void insertPlayer(int id,String suit,String number) {
+		cardMapper.insertPlayer(id, suit, number);
+	}
+
+	/** ディーラーテーブルに１枚配る */
+	public void insertDealer(int id,String suit,String number) {
+		cardMapper.insertDealer(id, suit, number);
+	}
+	
+	/** 山札から１枚削除 */
+	public void updateDeck(int id) {
+		cardMapper.updateDeck(id);
+	}
+	/** プレイヤーテーブルを全表示 */
+	public List<Cards> showPHand(){
+		return cardMapper.showPHand();
+	}
+
+	/** ディーラーテーブルを全表示 */
+	public List<Cards> showDHand(){
+		return cardMapper.showDHand();
+	}
+	
+	/** プレイヤーテーブルをリセット */
+	public void resetPlayer() {
+		cardMapper.resetPlayer();
+	}
+
+	/** プレイヤーテーブルをリセット */
+	public void resetDealer() {
+		cardMapper.resetDealer();
+	}
+
+	/** プレイヤーテーブルをリセット */
+	public void resetDeck() {
+		cardMapper.resetDeck();
+	}
+
+
+
+
+}
