@@ -1,0 +1,15 @@
+FROM eclipse-temurin:8-jdk
+
+WORKDIR /dogs
+
+COPY .mvn .mvn
+COPY mvnw pom.xml ./
+
+RUN chmod +x mvnw
+RUN ./mvnw dependency:go-office
+
+COPY src src
+
+RUN ./mvnw clean package -DskipTests
+
+COMD ["sh","-c","java -Dserver.port=$PORT -jar target/*.jar"]
