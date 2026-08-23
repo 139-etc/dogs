@@ -2,15 +2,12 @@ package com.example.domain.dog.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.example.domain.dog.model.Breed;
 import com.example.domain.dog.model.Choice;
 import com.example.domain.dog.model.Event;
 import com.example.domain.dog.model.Result;
 import com.example.domain.dog.model.Status;
 
-@Service
 public interface DogService {
 	
 	//全犬種取得
