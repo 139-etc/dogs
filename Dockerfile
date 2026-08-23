@@ -12,4 +12,4 @@ COPY src src
 
 RUN ./mvnw clean package -DskipTests
 
-CMD ["sh","-c","java -jar target/*.jar"]
+CMD ["sh","-c","java -jar target/*.jar --debug 2>&1"]
