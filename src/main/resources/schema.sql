@@ -10,9 +10,9 @@ CREATE TABLE IF NOT EXISTS m_user (
 CREATE TABLE IF NOT EXISTS breed (
     id VARCHAR(10) PRIMARY KEY,
     name VARCHAR(100) ,
-    stamina INT(10),
-    max_event INT(10),
-    max_point_event INT(10)
+    stamina INT,
+    max_event INT,
+    max_point_event INT
 );
 
 /* イベントマスタ */
@@ -26,10 +26,9 @@ CREATE TABLE IF NOT EXISTS choice (
 	id VARCHAR(10) PRIMARY KEY,
     incident VARCHAR(100),
     choice VARCHAR(100),
-    result_stamina INT(10) ,
+    result_stamina INT ,
     result_point_rate DECIMAL(2,1),
-    UNIQUE KEY (incident,choice),
-    FOREIGN KEY (incident) REFERENCES event(incident)
+    UNIQUE (incident,choice)
 );
 
 
@@ -37,8 +36,8 @@ CREATE TABLE IF NOT EXISTS choice (
 CREATE TABLE IF NOT EXISTS status (
     id VARCHAR(50) PRIMARY KEY,
     breed VARCHAR(100) ,
-    stamina INT(10) ,
-    point INT(10),
+    stamina INT ,
+    point INT,
     game_start_time TIMESTAMP
 );
 
@@ -48,8 +47,8 @@ CREATE TABLE IF NOT EXISTS log (
     user_id VARCHAR(50),
   	user_name VARCHAR(50),
   	breed VARCHAR(100) ,
-    diff_stamina INT(10), 
-    diff_point INT(10),
+    diff_stamina INT, 
+    diff_point INT,
     started_time TIMESTAMP,
     update_time TIMESTAMP
 );
@@ -60,8 +59,8 @@ CREATE TABLE IF NOT EXISTS result (
     user_id VARCHAR(50),
   	user_name VARCHAR(50),
   	breed VARCHAR(100),
-  	stamina INT(10),
-  	point INT(10),
+  	stamina INT,
+  	point INT,
     started_time TIMESTAMP,
     update_time TIMESTAMP
 );

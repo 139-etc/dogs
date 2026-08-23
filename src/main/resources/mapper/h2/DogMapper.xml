@@ -150,7 +150,8 @@
     	started_time,
     	update_time
     ) VALUES (
-    	FORMATDATETIME(CURRENT_TIMESTAMP(), 'yyyyMMddHHmmssSSS') || #{userId},
+    	<!--FORMATDATETIME(CURRENT_TIMESTAMP(), 'yyyyMMddHHmmssSSS') || #{userId},-->
+    	TO_CHAR(CURRENT_TIMESTAMP, 'YYYYMMDDHH24MISSMS') || #{userId},    	
 		#{userId},
 		(SELECT user_name FROM m_user WHERE user_id = #{userId}),
 		(SELECT breed FROM status WHERE id = #{userId}),
