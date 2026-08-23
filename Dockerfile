@@ -12,4 +12,4 @@ COPY src src
 
 RUN ./mvnw clean package -DskipTests
 
-CMD ["sh", "-c", "echo '=== JAVA START ==='; java -version; echo '=== JAR START ==='; java -Dserver.port=${PORT} -jar target/*.jar; CODE=$?; echo \"=== JAVA EXIT CODE: $CODE ===\"; sleep 60"]
+CMD ["sh", "-c", "echo '=== JAR START ==='; java -Dserver.port=${PORT} -Dlogging.level.root=DEBUG -jar target/*.jar 2>&1; CODE=$?; echo \"=== JAVA EXIT CODE: $CODE ===\"; sleep 60"]
