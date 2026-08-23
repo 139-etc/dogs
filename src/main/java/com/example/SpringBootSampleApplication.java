@@ -9,8 +9,25 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpringBootSampleApplication {
 
 	public static void main(String[] args) {
-		System.out.println("MAIN START");
-		SpringApplication.run(SpringBootSampleApplication.class, args);
-	}
 
+	    System.out.println("=== MAIN START ===");
+
+	    try {
+	        System.out.println("=== BEFORE SPRING RUN ===");
+
+	        SpringApplication.run(SpringBootSampleApplication.class, args);
+
+	        System.out.println("=== AFTER SPRING RUN ===");
+
+	    } catch (Throwable e) {
+
+	        System.out.println("=== SPRING STARTUP ERROR ===");
+
+	        e.printStackTrace(System.out);
+
+	        System.out.println("=== ERROR END ===");
+
+	        throw e;
+	    }
+	}
 }
