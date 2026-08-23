@@ -12,4 +12,4 @@ COPY src src
 
 RUN ./mvnw clean package -DskipTests
 
-CMD ["sh","-c","exec java -Dserver.port=${PORT:-10000} -jar target/*.jar --debug 2>&1"]
+CMD ["sh","-c","exec java -Dserver.port=${PORT:10000} -jar target/*.jar --debug 2>&1"]
