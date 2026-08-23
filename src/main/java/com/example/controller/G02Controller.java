@@ -43,7 +43,7 @@ public class G02Controller {
     	//セッションからモーダルのエラーメッセージを取り出しモデルに詰める
     	model.addAttribute("errorMessage",session.getAttribute("errorMessage"));
 
-        return "/G02";
+        return "G02";
     }
     
     @PostMapping(value = "/G05")

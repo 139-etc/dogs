@@ -74,7 +74,7 @@ public class G11Controller {
 	    //表示用としてそのまま渡す
 	    model.addAttribute("resultsSum", resultsSum);
 
-		return "/admin/G11";
+		return "admin/G11";
 	}
 
 	/** ログを削除 */

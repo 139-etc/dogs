@@ -95,7 +95,7 @@ public class G03Controller {
 		//DBから引き出したユーザ情報をモデルに詰める
 		model.addAttribute("users", userService.getUserMulti(userIds));
 
-		return "/admin/G10";
+		return "admin/G10";
 	}
 
 	/** ユーザログ画面に遷移 */

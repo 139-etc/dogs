@@ -22,7 +22,7 @@ public class G10Controller {
     @GetMapping("/G10")
     public String getInit(Model model,HttpSession session) {
     	
-        return "/admin/G10";
+        return "admin/G10";
     }
     
     /** ユーザ情報を更新してG03画面に遷移 */

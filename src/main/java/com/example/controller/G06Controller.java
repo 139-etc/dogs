@@ -40,7 +40,7 @@ public class G06Controller {
     	model.addAttribute("showErrorModal",session.getAttribute("showErrorModal"));
 		
 		//G06画面に遷移
-		return "/game/G06";
+		return "game/G06";
 	}
 	
 	@PostMapping(value = "/G05" , params = "G06")
@@ -79,7 +79,7 @@ public class G06Controller {
 		if(stamina <= 0) {
 			dogService.setResult(userId);
 			dogService.insertLog(userId, choiceId);
-			return "/game/G08";
+			return "game/G08";
 		}
 		
 		//セッションから3つのイベントを取り出してモデルに詰める
@@ -89,7 +89,7 @@ public class G06Controller {
     	model.addAttribute("showErrorModal",session.getAttribute("showErrorModal"));
 		
     	//G05画面に戻る
-		return "/game/G05";
+		return "game/G05";
 	}
 	
 	@PostMapping("/G07")
@@ -107,7 +107,7 @@ public class G06Controller {
 		dogService.setResult(userId);
 
 		//G07画面に遷移
-		return "/game/G07";
+		return "game/G07";
 	}
 
 
