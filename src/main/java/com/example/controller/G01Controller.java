@@ -11,8 +11,7 @@ public class G01Controller {
 	@GetMapping("/login/G01")
 	@ResponseBody
 	public String getInit() {
-		return "TEST";
-		//return "login/G01";
+		return "login/G01";
 	}
 
 }
