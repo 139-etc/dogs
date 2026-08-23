@@ -11,5 +11,5 @@ public class G01Controller {
 	public String getInit() {
 		return "/login/G01";
 	}
-	
+
 }
