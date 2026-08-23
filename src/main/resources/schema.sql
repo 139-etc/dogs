@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS status (
     breed VARCHAR(100) ,
     stamina INT(10) ,
     point INT(10),
-    times INT(10)
+    game_start_time TIMESTAMP
 );
 
 /* 変更履歴マスタ */
@@ -50,18 +50,18 @@ CREATE TABLE IF NOT EXISTS log (
   	breed VARCHAR(100) ,
     diff_stamina INT(10), 
     diff_point INT(10),
-     times INT(10),
+    started_time TIMESTAMP,
     update_time TIMESTAMP
 );
 
 /* リザルトマスタ */
 CREATE TABLE IF NOT EXISTS result (
-    id VARCHAR(10) PRIMARY KEY,
+    id VARCHAR(67) PRIMARY KEY,
     user_id VARCHAR(50),
   	user_name VARCHAR(50),
   	breed VARCHAR(100),
   	stamina INT(10),
   	point INT(10),
-    times INT(10),
-    result_time TIMESTAMP
+    started_time TIMESTAMP,
+    update_time TIMESTAMP
 );

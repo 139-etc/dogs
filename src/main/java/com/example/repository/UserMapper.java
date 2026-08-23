@@ -19,6 +19,9 @@ public interface UserMapper {
     /** ユーザー取得(1件)*/
     public MUser findOne(String userId);
     
+    /** ユーザー取得(複数件)*/
+    public List<MUser> findMulti(List<String> userIds);
+    
     /** ユーザー更新(1件) */
     public void updateOne(@Param("userId") String userId,
             @Param("password") String password,
@@ -31,4 +34,5 @@ public interface UserMapper {
     
     /** ログインユーザー取得 */
     public MUser findLoginUser(String userId);
+    
 }

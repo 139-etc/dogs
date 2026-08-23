@@ -9,13 +9,13 @@
   <div layout:fragment="menu" class="bg-light">
     <ul class="nav nav-pills nav-stacked">
       <li role="presentation">
-        <a class="nav-link" th:href="@{'/opening'}">初期画面</a>
+        <a class="nav-link" th:href="@{'/G02'}">初期画面</a>
       </li>
       <li role="presentation" sec:authorize="hasRole('ADMIN')">
-        <a class="nav-link" th:href="@{'/admin'}">アドミン専用</a>
+        <a class="nav-link" th:href="@{'/admin/G03'}">アドミン専用</a>
       </li>
       <li role="presentation">
-        <a class="nav-link" th:href="@{'/result'}">戦績確認</a>
+        <a class="nav-link" th:href="@{'/G04'}">戦績確認</a>
       </li>
     </ul>
   </div>

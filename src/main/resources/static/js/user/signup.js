@@ -23,7 +23,7 @@ function signupUser() {
   $.ajax({
     type : "POST",
     cache : false,
-    url : '/user/signup/rest',
+    url : '/user/G09/rest',
     data: formData,
     dataType : 'json',
   }).done(function(data) {
@@ -39,7 +39,7 @@ function signupUser() {
     } else if(data.result === 0) {
       alert('ユーザーを登録しました');
       // ログイン画面にリダイレクト
-      window.location.href = '/login';
+      window.location.href = '/login/G01';
     }
 
   }).fail(function(jqXHR, textStatus, errorThrown) {

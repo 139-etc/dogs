@@ -58,6 +58,21 @@
     where
       user_id = #{userId}
   </select>
+  
+  
+  <!-- ユーザー複数件取得 -->
+  <select id="findMulti" resultType="MUser">
+    select
+      *
+    from
+      m_user
+    where
+	 	user_id in
+	 <foreach collection="userIds" item="id" open="(" separator="," close=")">
+		 #{id}
+	 </foreach>
+  </select>
+  
 
   <!-- ユーザー1件更新 -->
   <update id="updateOne">
@@ -81,7 +96,7 @@
   </delete>
 
   <!-- ログインユーザー情報取得 -->
-  <select id="findLoginUser" resultType="MUser">
+  <select id="findLoginUser" resultMap="user">
     select
       *
     from
@@ -89,5 +104,4 @@
     where
       user_id = #{userId}
   </select>
-  
 </mapper>

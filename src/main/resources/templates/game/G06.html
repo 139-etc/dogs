@@ -14,29 +14,23 @@
 <body>
   <div layout:fragment="content">
     <div class="header border-bottom">
-      <h1 class="h2" >戦績確認画面</h1>
+      <h1 class="h2" >選択肢画面</h1>
     </div>
-    <h4 style="margin-bottom: 20px;">あなたの戦績</h4>
-		<table border="1">
-			<tr>
-				<td>回数</td>
-				<td>ユーザID</td>
-				<td>ユーザ名</td>
-				<td>犬種</td>
-				<td>残り体力</td>
-				<td>得点</td>
-				<td>実行日時</td>
-			</tr>
-			<tr th:each="result:${results}">
-				<td th:text="${result.times}"></td>
-				<td th:text="${result.userId}"></td>
-				<td th:text="${result.userName}"></td>
-				<td th:text="${result.breed}"></td>
-				<td th:text="${result.stamina}"></td>
-				<td th:text="${result.point}"></td>
-				<td th:text="${result.resultTime}"></td>
+    <form method="post" th:action="@{/G05}">
+    <h4 style="margin-bottom: 20px;">選択肢を選んでください！</h4>
+		<table>
+			<tr th:each="choice:${choices}">
+				<td><input type="radio" th:text="${choice.choice}" th:value="${choice.id}"
+				 name="choiceId"/></td>
 			</tr>
 		</table>
+	<input type="submit" value="決定！" name="G06"/>
+	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    </form>	
+	<form method="post" th:action="@{/G07}">
+	<input type="submit" value="帰宅！" name="return"/>
+	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+	</form>
   </div>
 </div>
 </body>

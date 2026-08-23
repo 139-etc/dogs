@@ -1,5 +1,7 @@
 package com.example.domain.dog.model;
 
+import java.sql.Timestamp;
+
 import lombok.Data;
 
 @Data
@@ -13,5 +15,5 @@ public class Log {
 	
 	private Integer point;
 	
-	private Integer times;
+	private Timestamp gameStartTime;
 }

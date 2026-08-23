@@ -3,7 +3,7 @@
   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="~{layout/layout}">
 <head>
-  <title>初期画面</title>
+  <title>散歩！　散歩！</title>
   <!-- 個別CSS読込 -->
   <link rel="stylesheet" th:href="@{/css/user/list.css}">
   <!-- 個別JS読込 -->
@@ -13,23 +13,21 @@
 </head>
 <body>
   <div layout:fragment="content">
-    <div class="header border-bottom" >
-      <h1 class="h2">初期画面</h1>
+    <div class="header border-bottom">
+      <h1 class="h2" >イベント表示画面</h1>
     </div>
-    <form method="post" th:action="@{/walk}">
-    <h4>あなたは犬の飼い主です。散歩してあげましょう！
-		<br>
-		<br>散歩する犬の犬種を選んでください！
-		<table th:each="breed:${breeds}">
-			<tr>
-				<td><input type="radio" th:text="${breed.name}" th:value="${breed.name}" name="breed"/></td>
+    <form method="post" th:action="@{/G06}">
+    <h4 style="margin-bottom: 20px;">選択肢を選んでください！</h4>
+		<table>
+			<tr th:each="event:${events}">
+				<td><input type="radio" th:text="${event.incident}"　th:value="${event.incident}"
+				 name="incident"/></td>
 			</tr>
 		</table>
-		<br>
-	</h4>
-	<input type="submit" value="出発！"/>
+	<input type="submit" value="決定！"/>
 	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    </form>
   </div>
-</form>
+</div>
 </body>
 </html>

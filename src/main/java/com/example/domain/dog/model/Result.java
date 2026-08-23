@@ -19,7 +19,7 @@ public class Result {
 	
 	private Integer point;
 	
-	private Integer times;
+	private Timestamp startedTime;
 	
-	private Timestamp resultTime;
+	private Timestamp updateTime;
 }

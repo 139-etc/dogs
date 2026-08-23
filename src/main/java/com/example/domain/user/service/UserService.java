@@ -15,6 +15,9 @@ public interface UserService {
     /** ユーザー取得(1件) */
     public MUser getUserOne(String userId);
 
+    /** ユーザー取得(複数件) */
+    public List<MUser> getUserMulti(List<String> userIds);
+    
     /** ユーザー更新(1件) */
     public void updateUserOne(String userId,
             String password,

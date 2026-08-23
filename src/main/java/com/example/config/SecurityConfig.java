@@ -21,7 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -44,28 +44,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // ログイン不要ページの設定
         http
             .authorizeRequests()
-                .antMatchers("/login").permitAll() //直リンクOK
-                .antMatchers("/user/signup").permitAll() //直リンクOK
-                .antMatchers("/user/signup/rest").permitAll() //直リンクOK
-                .antMatchers("/admin").hasAuthority("ROLE_ADMIN") // 権限制御
+                .antMatchers("/login","/login/G01").permitAll() //直リンクOK
+                .antMatchers("/favicon.ico").permitAll() //直リンクOK
+                .antMatchers("/user/G09").permitAll() //直リンクOK
+                .antMatchers("/user/G09/rest").permitAll() //直リンクOK
+                .antMatchers("/admin/G03").hasAuthority("ROLE_ADMIN") // 権限制御
                 .anyRequest().authenticated(); // それ以外は直リンクNG
 
         // ログイン処理
         http
             .formLogin()
-                .loginProcessingUrl("/login") // ログイン処理のパス
-                .loginPage("/login") // ログインページの指定
-                .failureUrl("/login?error") // ログイン失敗時の遷移先
+                .loginProcessingUrl("/login/G01") // ログイン処理のパス
+                .loginPage("/login/G01") // ログインページの指定
+                .failureUrl("/G08") // ログイン失敗時の遷移先
                 .usernameParameter("userId") // ログインページのユーザーID
                 .passwordParameter("password") // ログインページのパスワード
-                .defaultSuccessUrl("/opening", true); // 成功後の遷移先
+                .defaultSuccessUrl("/G02", true); // 成功後の遷移先
 
         // ログアウト処理
         http
             .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/login?logout");
+                .logoutSuccessUrl("/logout");
 
         // CSRF対策を無効に設定（一時的）
         //http.csrf().disable();

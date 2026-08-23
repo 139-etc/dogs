@@ -1,4 +1,4 @@
-/* ユーザーマスタ */
+/* ユーザー */
 INSERT INTO m_user (
     user_id
   , password
@@ -9,7 +9,7 @@ INSERT INTO m_user (
 , ('user@co.jp', '$2a$10$TyUNh8m9FfMpa8xw8S3gMeVUA5yVCwt8IjQyzFymzfsc5zgps4ppi', 'ユーザー1', 'ROLE_GENERAL')
 ;
 
-/* 犬種マスタ */
+/* 犬種 */
 INSERT INTO breed(
 	id
 	,name
@@ -30,7 +30,7 @@ INSERT INTO breed(
 ('11','アラスカンマラミュート',120,10,10),
 ('12','ロットワイラー',95,9,11);
 
-/* イベントマスタ */
+/* イベント */
 INSERT INTO event(
 	id
 	,incident
@@ -47,7 +47,7 @@ INSERT INTO event(
 ('10','落ち着いた足取りで歩いている')
 ;
 
-/* 選択肢マスタ */
+/* 選択肢 */
 INSERT INTO choice(
 	id
 	,incident
@@ -76,13 +76,12 @@ INSERT INTO choice(
 ('19','落ち着いた足取りで歩いている','この調子を保つ',-5,1.0),
 ('20','落ち着いた足取りで歩いている','ペースを上げる',-10,0.6);
 
-/* ステータスマスタ */
+/* ステータス */
 INSERT INTO status (
     id
     ,point
-    ,times
+    ,game_start_time
 ) VALUES 
-('system@co.jp',0,0),
-('user@co.jp',0,0)
+('system@co.jp',0,NOW()),
+('user@co.jp',0,NOW())
 ;
-

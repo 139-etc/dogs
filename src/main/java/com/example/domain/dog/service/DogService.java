@@ -38,14 +38,23 @@ public interface DogService {
 	public void insertStatus(String userId);
 	
 	//ゲーム挑戦回数をステータスに記録
-	public void countTimes(String userId) ;
+	public void updateGameStartTime(String userId) ;
 	
 	//リザルトを記録
 	public void setResult(String userId);
 	
 	//リザルトを取得
 	public List<Result> getResult(String userId);
-
-
-
+	
+	//リザルトをインポート
+	public void importResult(List<String> record);
+	
+	//リザルトを削除
+	public void deleteResult(String id);
+	
+	//リザルトの重複レコードをチェック
+	public int checkDeplicateResult(String userId, String timestamp);
+	
+	//リザルトを更新
+	public void updateResult(Result result);
 }

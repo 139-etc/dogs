@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- ログパターン -->
+    <property name="LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+
+    <!-- 出力先（絶対パス） -->
+    <property name="DEBUG_LOG" value="C:\\pleiades\\2022-12\\workspace\\dog\\logs\\debug.log"/>
+    <property name="AC_LOG"    value="C:\\pleiades\\2022-12\\workspace\\dog\\logs\\aclog.log"/>
+    <property name="ERROR_LOG"    value="C:\\pleiades\\2022-12\\workspace\\dog\\logs\\errorlog.log"/>
+
+    <!-- ========================= -->
+    <!-- ① 通常ログ（debug.log） -->
+    <!-- ========================= -->
+    <appender name="DEBUG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${DEBUG_LOG}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>C:\\pleiades\\2022-12\\workspace\\dog\\logs\\debug_%i.log</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>10</maxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10MB</maxFileSize>
+        </triggeringPolicy>
+
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ========================= -->
+    <!-- ② aclog（メソッド開始・終了ログ） -->
+    <!-- ========================= -->
+    <appender name="ACLOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${AC_LOG}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>C:\\pleiades\\2022-12\\workspace\\dog\\logs\\aclog_%i.log</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>10</maxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>5MB</maxFileSize>
+        </triggeringPolicy>
+
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- ========================= -->
+    <!-- ③ errorlog（エラーログ） -->
+    <!-- ========================= -->
+    <appender name="ERRORLOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${ERROR_LOG}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>C:\\pleiades\\2022-12\\workspace\\dog\\logs\\errorlog_%i.log</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>10</maxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>5MB</maxFileSize>
+        </triggeringPolicy>
+
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ========================= -->
+    <!-- ④ 通常ログの root logger -->
+    <!-- ========================= -->
+    <root level="DEBUG">
+        <appender-ref ref="DEBUG_FILE"/>
+    </root>
+
+    <!-- ========================= -->
+    <!-- ⑤ aclog 専用 logger -->
+    <!-- ========================= -->
+    <logger name="ACLOG" level="DEBUG" additivity="false">
+        <appender-ref ref="ACLOG_FILE"/>
+    </logger>
+    
+    <!-- ========================= -->
+    <!-- ⑥ errorlog 専用 logger -->
+    <!-- ========================= -->
+    <logger name="ERRORLOG" level="DEBUG" additivity="false">
+        <appender-ref ref="ERRORLOG_FILE"/>
+    </logger>
+
+</configuration>

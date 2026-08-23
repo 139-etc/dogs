@@ -19,16 +19,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.domain.dog.service.DogService;
 import com.example.domain.user.model.MUser;
 import com.example.domain.user.service.UserService;
+import com.example.form.G09Form;
 import com.example.form.GroupOrder;
-import com.example.form.SignupForm;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/user")
 @Slf4j
-public class SignupController {
-
+public class G09Controller {
+	
+	// クラス名のみ（パッケージ名なし）を入手
+	public String simpleName = this.getClass().getSimpleName();
 
     @Autowired
     private UserService userService;
@@ -40,23 +42,23 @@ public class SignupController {
     private DogService dogService;
 
     /** ユーザー登録画面を表示 */
-    @GetMapping("/signup")
-    public String getSignup(Model model, Locale locale,
-            @ModelAttribute SignupForm form) {
+    @GetMapping("/G09")
+    public String getInit(Model model, Locale locale,
+            @ModelAttribute G09Form form) {
         // ユーザー登録画面に遷移
-        return "user/signup";
+        return "user/G09";
     }
 
     /** ユーザー登録処理 */
-    @PostMapping("/signup")
+    @PostMapping("/G09")
     public String postSignup(Model model, Locale locale,
-            @ModelAttribute @Validated(GroupOrder.class) SignupForm form,
+            @ModelAttribute @Validated(GroupOrder.class) G09Form form,
             BindingResult bindingResult) {
 
         // 入力チェック結果
         if (bindingResult.hasErrors()) {
             // NG:ユーザー登録画面に戻ります
-            return getSignup(model, locale, form);
+            return getInit(model, locale, form);
         }
 
         log.info(form.toString());
@@ -71,7 +73,13 @@ public class SignupController {
         dogService.insertStatus(user.getUserId());
 
         // ログイン画面にリダイレクト
-        return "redirect:/login";
+        return "redirect:/login/G01";
+    }
+    
+    /** ログイン画面へ遷移 */
+    @PostMapping(value = "return-login")
+    public String returnG01(Model model, Locale locale){
+    	return "login/G01";
     }
 
     /** データベース関連の例外処理 */
@@ -82,12 +90,12 @@ public class SignupController {
         model.addAttribute("error", "");
 
         // メッセージをModelに登録
-        model.addAttribute("message", "SignupControllerで例外が発生しました");
+        model.addAttribute("message", simpleName + "で例外が発生しました");
 
         // HTTPのエラーコード（500）をModelに登録
         model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
 
-        return "error";
+        return "G08";
     }
 
     /** その他の例外処理 */
@@ -98,11 +106,11 @@ public class SignupController {
         model.addAttribute("error", "");
 
         // メッセージをModelに登録
-        model.addAttribute("message", "SignupControllerで例外が発生しました");
+        model.addAttribute("message", simpleName + "で例外が発生しました");
 
-        // HTTPのエラーコード（500）をModelに登録
+        // HTTPのエラーコードをModelに登録
         model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
 
-        return "error";
+        return "G08";
     }
 }

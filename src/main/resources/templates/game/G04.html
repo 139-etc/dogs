@@ -14,25 +14,29 @@
 <body>
   <div layout:fragment="content">
     <div class="header border-bottom">
-      <h1 class="h2" >結果画面</h1>
+      <h1 class="h2" >戦績確認画面</h1>
     </div>
-    <h4 style="margin-bottom: 20px;">結果発表！</h4>
-    <form  method="get" th:action="@{/opening}">
-		<table th:object="${status}" border="1">
+    <h4 style="margin-bottom: 20px;">あなたの戦績</h4>
+		<table border="1">
 			<tr>
+				<td>ID</td>
+				<td>ユーザID</td>
+				<td>ユーザ名</td>
 				<td>犬種</td>
 				<td>残り体力</td>
-				<td>ポイント</td>				
+				<td>得点</td>
+				<td>実行日時</td>
 			</tr>
-			<tr>
-				<td th:text="*{breed}"></td>
-				<td th:text="*{stamina}"></td>
-				<td th:text="*{point}"></td>
+			<tr th:each="result:${results}">
+				<td th:text="${result.id}"></td>
+				<td th:text="${result.userId}"></td>
+				<td th:text="${result.userName}"></td>
+				<td th:text="${result.breed}"></td>
+				<td th:text="${result.stamina}"></td>
+				<td th:text="${result.point}"></td>			
+				<td th:text="${result.updateTime}"></td>
 			</tr>
 		</table>
-	<input type="submit" value="もう一度！"/>
-	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-	</form>
   </div>
 </div>
 </body>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+	<title>ユーザ編集</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="header border-bottom mt-2">
+			<h1 class="h2">ユーザ編集画面</h1>
+		</div>
+		<h4 style="margin-bottom: 20px;"></h4>
+		<br>
+		<form method="post" th:action="@{/admin/G10}">
+		<table border="1" th:each="user:${users}">
+			<tr><td>ユーザID</td></tr>
+			<tr><td><input type="text" th:value="${user.userId}" disabled="true" /></td></tr>
+			<tr><td>パスワード</td></tr>
+			<tr><td><input type="text" th:value="${user.password}" disabled="true" /></td></tr>
+			<tr><td>ユーザ名</td></tr>
+			<tr><td><input type="text" th:value="${user.userName}" disabled="true" /></td></tr>
+			<tr><td>権限</td></tr>
+			<tr><td><input type="text" th:value="${user.role}" disabled="true" /></td></tr>
+			<tr><td><br><br></td></tr>
+		</table>
+		</form>
+	</div>
+
+</body>
+
+</html>
